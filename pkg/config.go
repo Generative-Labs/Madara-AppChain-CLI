@@ -3,6 +3,7 @@ package pkg
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/pelletier/go-toml"
 	"github.com/spf13/viper"
@@ -16,7 +17,25 @@ type Config struct {
 	Torii  string `toml:"torii"`
 }
 
-func initConfig() {
+func parseArgs(args []string, defaultConfig Config) Config {
+	config := defaultConfig
+
+	for _, arg := range args {
+		parts := strings.Split(arg, "@")
+		if len(parts) == 2 {
+			switch parts[0] {
+			case "torii":
+				config.Torii = parts[1]
+			case "madara":
+				config.Madara = parts[1]
+			}
+		}
+	}
+
+	return config
+}
+
+func initConfig(args []string) {
 	if cfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
@@ -41,13 +60,18 @@ func initConfig() {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	} else {
 		// If config file is not found, create it with default values.
+		if len(args) > 0 {
+
+		}
+
 		defaultConfig := Config{
 			Madara: "0.1.0",
 			Torii:  "0.3.15",
 		}
+		config := parseArgs(args, defaultConfig)
 
-		viper.Set("madara", defaultConfig.Madara)
-		viper.Set("torii", defaultConfig.Torii)
+		viper.Set("madara", config.Madara)
+		viper.Set("torii", config.Torii)
 
 		// Write the config file
 		if err := writeConfigFile(); err != nil {

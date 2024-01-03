@@ -15,7 +15,6 @@ curl -L https://raw.githubusercontent.com/Generative-Labs/Madara-AppChain-CLI/ma
 madcli init
 
 # With version
-
 madcli init torii@0.3.15 sozo@0.3.15
 ```
 

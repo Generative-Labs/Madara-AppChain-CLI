@@ -12,7 +12,7 @@ var InitCmd = &cobra.Command{
 	Short: "Initialize madcli",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("args:", args)
-		initConfig()
+		initConfig(args)
 		fmt.Println("Initializing madcli...")
 	},
 }
