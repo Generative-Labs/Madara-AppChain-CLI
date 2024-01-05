@@ -20,9 +20,9 @@ curl -L $BIN_URL -o $BIN_PATH
 chmod +x $BIN_PATH
 
 # genesis-modifier
-echo Installing genesis-modifier...
+echo Installing madara-genesis-modifier...
 
-MADARA_GENESIS_PATH="$MADUP_BIN_DIR/genesis-modifier"
+MADARA_GENESIS_PATH="$MADUP_BIN_DIR/madara-genesis-modifier"
 
 curl -L $MADARA_GENESIS_BIN_URL -o $MADARA_GENESIS_PATH
 chmod +x $MADARA_GENESIS_PATH
