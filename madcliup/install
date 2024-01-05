@@ -9,17 +9,19 @@ MADUP_BIN_DIR="$MADUP_DIR/bin"
 MADUP_MAN_DIR="$MADUP_DIR/share/man/man1"
 
 BIN_URL="https://github.com/Generative-Labs/Madara-AppChain-CLI/releases/latest/download/madcli-$(uname -s | awk '{ print tolower($0) }')-x64"
-MADARA_GENESIS_BIN_URL="https://github.com/Generative-Labs/Madara-AppChain-CLI/releases/latest/download/genesis-modifier-$(uname -s | awk '{ print tolower($0) }')-x64"
+MADARA_GENESIS_BIN_URL="https://github.com/Generative-Labs/Madara-AppChain-CLI/releases/latest/download/madara-genesis-modifier-$(uname -s | awk '{ print tolower($0) }')-x64"
 
 # Create the .madup bin directory and madup binary if it doesn't exist.
 mkdir -p $MADUP_BIN_DIR
+
+BIN_PATH="$MADUP_BIN_DIR/madcli"
+
 curl -L $BIN_URL -o $BIN_PATH
 chmod +x $BIN_PATH
 
 # genesis-modifier
 echo Installing genesis-modifier...
 
-BIN_PATH="$MADUP_BIN_DIR/madcli"
 MADARA_GENESIS_PATH="$MADUP_BIN_DIR/genesis-modifier"
 
 curl -L $MADARA_GENESIS_BIN_URL -o $MADARA_GENESIS_PATH
