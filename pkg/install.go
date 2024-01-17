@@ -4,11 +4,18 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
 
-func performInstallation(version string) error {
+func performMadaraInstallation(version string) error {
+	InstallMadaraPkg(version)
+
+	return nil
+}
+
+func performDojoInstallation(version string) error {
 	// Add your installation logic here.
 	// For example, you can use curl and bash to install:
 	cmd := exec.Command("bash", "-c", fmt.Sprintf("curl -L https://install.dojoengine.org | bash -s %s", version))
@@ -25,32 +32,64 @@ func runDojoup() error {
 	return cmd.Run()
 }
 
+func parsePackageInfo(arg string) (string, string) {
+	parts := strings.Split(arg, "@")
+	if len(parts) == 1 {
+		return parts[0], "latest"
+	}
+
+	if len(parts) != 2 {
+		fmt.Println("Invalid argument format")
+		return "", ""
+	}
+
+	packageName := parts[0]
+	version := parts[1]
+
+	return packageName, version
+}
+
 // installCmd represents the install command
 var InstallCmd = &cobra.Command{
 	Use:   "install",
 	Short: "Install dependencies",
 	Run: func(cmd *cobra.Command, args []string) {
-		version, _ := cmd.Flags().GetString("version")
-		fmt.Printf("Installing dependencies with version: %s\n", version)
+		// version, _ := cmd.Flags().GetString("version")
+		// fmt.Printf("Installing dependencies with version: %s\n", version)
 
-		// Perform the installation
-		if err := performInstallation(version); err != nil {
-			fmt.Println("Error during installation:", err)
-			os.Exit(1)
+		for _, arg := range args {
+			_, version := parsePackageInfo(arg)
+
+			if strings.HasPrefix(arg, "madara") {
+				// Perform the installation
+				if err := performMadaraInstallation(version); err != nil {
+					fmt.Println("Error during madara installation:", err)
+					os.Exit(1)
+				}
+
+			}
+
+			if strings.HasPrefix(arg, "dojo") {
+				// Perform the installation
+				if err := performDojoInstallation(version); err != nil {
+					fmt.Println("Error during dojo installation:", err)
+					os.Exit(1)
+				}
+
+				// Source the bash script
+				// if err := sourceBashScript(); err != nil {
+				// 	fmt.Println("Error sourcing bash script:", err)
+				// 	os.Exit(1)
+				// }
+
+				// Run the dojoup command
+				if err := runDojoup(); err != nil {
+					fmt.Println("Error running dojoup:", err)
+					os.Exit(1)
+				}
+			}
 		}
 
 		fmt.Println("Installation completed successfully.")
-
-		// Source the bash script
-		// if err := sourceBashScript(); err != nil {
-		// 	fmt.Println("Error sourcing bash script:", err)
-		// 	os.Exit(1)
-		// }
-
-		// Run the dojoup command
-		if err := runDojoup(); err != nil {
-			fmt.Println("Error running dojoup:", err)
-			os.Exit(1)
-		}
 	},
 }

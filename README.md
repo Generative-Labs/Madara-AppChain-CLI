@@ -15,7 +15,7 @@ curl -L https://raw.githubusercontent.com/Generative-Labs/Madara-AppChain-CLI/ma
 madcli init
 
 # With version
-madcli init torii@0.3.15 sozo@0.3.15
+madcli init dojo@0.3.15 madara@0.6.0
 ```
 
 ## Install
@@ -24,15 +24,17 @@ madcli init torii@0.3.15 sozo@0.3.15
 madcli install
 
 # With version
-madcli install torii@0.3.15
+madcli install dojo@0.3.15
 ```
 
 ## Start
 
 ```bash
-madcli start
-
 # With service
 
+# start torii
 madcli start torii
+
+# start madara
+madcli start madara
 ```
