@@ -110,7 +110,6 @@ fn main() -> Result<()> {
 
     // remove fee token storage in default genesis data.
     let default_fee_token_address = default_genesis.fee_token_address;
-    // default_genesis.storage.retain(|(key, _value)| !key.0.0.eq(&default_fee_token_address.0));
 
     // generate fee token storage
     let fee_token_storage =
