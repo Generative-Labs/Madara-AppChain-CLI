@@ -12,16 +12,16 @@ serde_json = { version = "1.0.108", default-features = false}
 anyhow = "1.0.78"
 primitive-types = "0.12.2"
 
-pallet-starknet = { git = "https://github.com/Generative-Labs/madara.git", branch = "appchain/v1"}
-mp-felt = { git = "https://github.com/Generative-Labs/madara.git", branch = "appchain/v1"}
+pallet-starknet = { git = "https://github.com/Generative-Labs/madara.git", branch = "dev/appchain"}
+mp-felt = { git = "https://github.com/Generative-Labs/madara.git", branch = "dev/appchain"}
 
 starknet_api = { git = "https://github.com/keep-starknet-strange/starknet-api", branch = "no_std-support-dc83f05", features = [
   "testing",
   "parity-scale-codec",
 ], default-features = false }
-starknet-crypto = { git = "https://github.com/xJonathanLEI/starknet-rs.git", rev = "a35ce22", default-features = false }
-starknet-ff = { git = "https://github.com/xJonathanLEI/starknet-rs.git", rev = "a35ce22", default-features = false }
-starknet-core = { git = "https://github.com/xJonathanLEI/starknet-rs.git", rev = "a35ce22", default-features = false }
+starknet-crypto = { git = "https://github.com/xJonathanLEI/starknet-rs.git", rev = "64ebc36", default-features = false }
+starknet-ff = { git = "https://github.com/xJonathanLEI/starknet-rs.git", rev = "64ebc36", default-features = false }
+starknet-core = { git = "https://github.com/xJonathanLEI/starknet-rs.git", rev = "64ebc36", default-features = false }
 
 blockifier = { git = "https://github.com/keep-starknet-strange/blockifier", branch = "no_std-support-7578442", default-features = false, features = [
   "parity-scale-codec",

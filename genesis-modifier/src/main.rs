@@ -5,7 +5,7 @@ use std::ops::Add;
 use std::path::PathBuf;
 
 use anyhow::{anyhow, Result};
-use clap::{arg, Command,value_parser};
+use clap::{arg, value_parser, Command};
 use mp_felt::Felt252Wrapper;
 use pallet_starknet::genesis_loader::{GenesisData, HexFelt};
 use primitive_types::U256;
@@ -80,8 +80,20 @@ impl FeeToken {
 fn main() -> Result<()> {
     let matches = Command::new("madara app chain genesis modifier")
         .version("0.1.0")
-        .arg(arg!(--custom_genesis_file <FILE>).short('c').help(DEMO_CUSTOM_GENESIS).required(true).value_parser(value_parser!(PathBuf)))
-        .arg(arg!(--default_genesis_file <FILE>).short('d').help("madara default genesis file.").required(true).value_parser(value_parser!(PathBuf)))
+        .arg(
+            arg!(--custom_genesis_file <FILE>)
+                .short('c')
+                .help(DEMO_CUSTOM_GENESIS)
+                .required(true)
+                .value_parser(value_parser!(PathBuf)),
+        )
+        .arg(
+            arg!(--default_genesis_file <FILE>)
+                .short('d')
+                .help("madara default genesis file.")
+                .required(true)
+                .value_parser(value_parser!(PathBuf)),
+        )
         .get_matches();
 
     let custom_genesis_file = matches.get_one::<PathBuf>("custom_genesis_file").expect("can't get custom_genesis_file");
@@ -98,15 +110,18 @@ fn main() -> Result<()> {
 
     // remove fee token storage in default genesis data.
     let default_fee_token_address = default_genesis.fee_token_address;
-    default_genesis.storage.retain(|(key, _value)| !key.0.0.eq(&default_fee_token_address.0));
+    // default_genesis.storage.retain(|(key, _value)| !key.0.0.eq(&default_fee_token_address.0));
 
     // generate fee token storage
     let fee_token_storage =
         custom_genesis.generate_contract_storage(default_fee_token_address).map_err(|e| anyhow!(e))?;
 
     // update genesis
-    for data in fee_token_storage.iter() {
-        default_genesis.storage.push(*data);
+    for ((contract, storage_key), storage_value) in fee_token_storage.iter() {
+        // replace the origin genesis storage
+        default_genesis.storage.retain(|((c, key), _value)| !(storage_key.0.eq(&key.0) && contract.0.eq(&c.0)));
+
+        default_genesis.storage.push(((*contract, *storage_key), *storage_value));
     }
 
     let modify_genesis = serde_json::to_string(&default_genesis)?;
