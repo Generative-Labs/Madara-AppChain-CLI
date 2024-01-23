@@ -57,8 +57,8 @@ impl FeeToken {
 
         for (address, str_balance) in self.balances.iter() {
             let balance = str_balance.parse::<U256>().map_err(|e| anyhow!(e))?;
-            let low_balance: u128 = balance.as_u128();
-            let high_balance: u128 = (balance >> 128).as_u128();
+            let low_balance: u128 = balance.low_u128();
+            let high_balance: u128 = (balance >> 128).low_u128();
             let addr = FieldElement::from_hex_be(address).map_err(|e| anyhow!(e))?;
             let low_balance_key = get_storage_var_address("ERC20_balances", &[addr]).map_err(|e| anyhow!(e))?;
             let high_balance_key = low_balance_key.add(FieldElement::from(1u8));
