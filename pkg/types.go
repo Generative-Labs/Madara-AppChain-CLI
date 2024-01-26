@@ -1,0 +1,8 @@
+package pkg
+
+// oz class hash
+const OpenzeppelinAccountDeployedClassHash = "0x006280083f8c2a2db9f737320d5e3029b380e0e820fe24b8d312a6a34fdba0cd"
+
+const ArgentAccountCairoOneDeployedClassHash = "0x0029787a427a423ffc5986d43e630077a176e4391fcef3ebf36014b154069ae4"
+
+const ArgentAccountDeployedClassHash = "0x06f0d6f6ae72e1a507ff4b65181291642889742dbf8f1a53e9ec1c595d01ba7d"

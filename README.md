@@ -9,32 +9,18 @@ Run the following command to install `madcli`:
 curl -L https://raw.githubusercontent.com/Generative-Labs/Madara-AppChain-CLI/main/madcliup/install | bash
 ```
 
-## Init
-
-```bash
-madcli init
-
-# With version
-madcli init dojo@0.3.15 madara@0.6.0
-```
-
 ## Install
 
 ```bash
-madcli install
-
-# With version
-madcli install dojo@0.3.15
+madcli install madara
 ```
 
 ## Start
 
 ```bash
-# With service
+# setup
+madara setup --chain dev --from-remote
 
-# start torii
-madcli start torii
-
-# start madara
-madcli start madara
+# start madara dev
+madara --dev --unsafe-rpc-external --rpc-methods Unsafe --rpc-cors all
 ```
