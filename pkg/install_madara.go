@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 )
@@ -94,15 +95,24 @@ func InstallMadaraPkg(version string) {
 		return
 	}
 
+	filePath := filepath.Join(MADUP_DIR, PkgName+".zip")
+	fmt.Println(">>> filePath: ", filePath)
+
+	err = os.Chown(filePath, os.Getuid(), os.Getgid())
+	if err != nil {
+		fmt.Println("Failed to set zip Chown:", err)
+		return
+	}
+
 	// Set zip permissions
-	err = os.Chmod(filepath.Join(MADUP_DIR, PkgName+".zip"), 0655)
+	err = os.Chmod(filePath, 0655)
 	if err != nil {
 		fmt.Println("Failed to set zip permissions:", err)
 		return
 	}
 
 	// Unzip the file
-	err = unzip(filepath.Join(MADUP_DIR, PkgName+".zip"), MADUP_DIR)
+	err = unzipv2(filePath, MADUP_DIR)
 	if err != nil {
 		fmt.Println("Failed to unzip file:", err)
 		return
@@ -156,10 +166,25 @@ func downloadFile(url, filename string) error {
 	return err
 }
 
+func unzipv2(src, desc string) error {
+	cmd := exec.Command("tar", "-zxvf", src, "-C", desc)
+
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println("Failed to execute command:", err)
+		return err
+	}
+
+	fmt.Println("[tar -zxvf] output:", string(output))
+
+	return nil
+}
+
 // Unzip a file
 func unzip(src, dest string) error {
 	r, err := zip.OpenReader(src)
 	if err != nil {
+		fmt.Println("OpenReader: error", err.Error())
 		return err
 	}
 	defer r.Close()
@@ -167,6 +192,8 @@ func unzip(src, dest string) error {
 	for _, f := range r.File {
 		rc, err := f.Open()
 		if err != nil {
+			fmt.Println("Open: error", err.Error())
+
 			return err
 		}
 		defer rc.Close()
@@ -179,11 +206,15 @@ func unzip(src, dest string) error {
 			os.MkdirAll(filepath.Dir(path), f.Mode())
 			outFile, err := os.Create(path)
 			if err != nil {
+				fmt.Println("Create: error", err.Error())
+
 				return err
 			}
 			defer outFile.Close()
 			_, err = io.Copy(outFile, rc)
 			if err != nil {
+				fmt.Println("Copy: error", err.Error())
+
 				return err
 			}
 		}
