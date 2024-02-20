@@ -94,6 +94,13 @@ func InstallMadaraPkg(version string) {
 		return
 	}
 
+	// Set zip permissions
+	err = os.Chmod(filepath.Join(MADUP_DIR, PkgName+".zip"), 0655)
+	if err != nil {
+		fmt.Println("Failed to set zip permissions:", err)
+		return
+	}
+
 	// Unzip the file
 	err = unzip(filepath.Join(MADUP_DIR, PkgName+".zip"), MADUP_DIR)
 	if err != nil {
