@@ -20,8 +20,10 @@ curl -H 'Pragma: no-cache' -L $BIN_URL -o $BIN_PATH
 chmod +x $BIN_PATH
 
 # download appchain_genesis.json
-APPCHAIN_GENESIS_PATH="$MADUP_BIN_DIR/appchain_genesis.json"
+APPCHAIN_GENESIS_PATH="$MADUP_DIR/appchain_genesis.json"
 APPCHAIN_GENESIS_URL="https://raw.githubusercontent.com/Generative-Labs/Madara-AppChain-CLI/main/madcliup/appchain_genesis.json"
+
+echo Download AppChain Genesis.json...
 
 curl -H 'Pragma: no-cache' -L $APPCHAIN_GENESIS_URL -o $APPCHAIN_GENESIS_PATH
 
