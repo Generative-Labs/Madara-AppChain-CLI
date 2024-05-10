@@ -9,6 +9,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+func performAppChainEVMInstallation(version string) error {
+	InstallAppChainEVMPkg(version)
+
+	return nil
+}
+
 func performMadaraInstallation(version string) error {
 	InstallMadaraPkg(version)
 
@@ -66,7 +72,14 @@ var InstallCmd = &cobra.Command{
 					fmt.Println("Error during madara installation:", err)
 					os.Exit(1)
 				}
+			}
 
+			if strings.HasPrefix(arg, "appchain-evm") {
+				// Perform the installation
+				if err := performAppChainEVMInstallation(version); err != nil {
+					fmt.Println("Error during appchain-evm installation:", err)
+					os.Exit(1)
+				}
 			}
 
 			if strings.HasPrefix(arg, "dojo") {

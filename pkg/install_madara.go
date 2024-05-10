@@ -11,7 +11,7 @@ import (
 	"runtime"
 )
 
-func GetPkgName() string {
+func GetPkgName(binName string) string {
 	osName := runtime.GOOS
 	machineName := runtime.GOARCH
 
@@ -45,7 +45,7 @@ func GetPkgName() string {
 	}
 
 	// Construct the package name
-	PkgName := fmt.Sprintf("%s-%s-madara", machine, os)
+	PkgName := fmt.Sprintf("%s-%s-%s", machine, os, binName)
 	return PkgName
 }
 
@@ -63,7 +63,7 @@ func GetMadupDir() string {
 }
 
 func InstallMadaraPkg(version string) {
-	PkgName := GetPkgName()
+	PkgName := GetPkgName("madara")
 	if PkgName == "" {
 		return
 	}
