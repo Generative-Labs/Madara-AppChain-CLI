@@ -6,7 +6,7 @@ Madara-AppChain-CLI
 Run the following command to install `madcli`:
 
 ```bash
-curl -L https://raw.githubusercontent.com/Generative-Labs/Madara-AppChain-CLI/main/madcliup/install | bash
+curl -H 'Pragma: no-cache' -L https://raw.githubusercontent.com/Generative-Labs/Madara-AppChain-CLI/main/madcliup/install | bash
 ```
 
 ## Install
