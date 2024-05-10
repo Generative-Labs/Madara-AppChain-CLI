@@ -122,6 +122,8 @@ var UpdateSpecCmd = &cobra.Command{
 					fmt.Println("Error during update chain spec :", err)
 					os.Exit(1)
 				}
+
+				fmt.Println("Update chain spec successfully.")
 			}
 		}
 	},
