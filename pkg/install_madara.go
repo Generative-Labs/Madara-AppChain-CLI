@@ -169,6 +169,8 @@ func downloadFile(url, filename string) error {
 func unzipv2(src, desc string) error {
 	cmd := exec.Command("tar", "-zxvf", src, "-C", desc)
 
+	fmt.Println("cmd: ", cmd)
+
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println("Failed to execute command:", err)

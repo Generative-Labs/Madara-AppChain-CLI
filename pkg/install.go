@@ -106,3 +106,22 @@ var InstallCmd = &cobra.Command{
 		fmt.Println("Installation completed successfully.")
 	},
 }
+
+// UpdateSpecCmd represents the update spec command
+var UpdateSpecCmd = &cobra.Command{
+	Use:   "update-spec",
+	Short: "Update spec dependencies",
+	Run: func(cmd *cobra.Command, args []string) {
+
+		for _, arg := range args {
+
+			if strings.HasPrefix(arg, "madara") {
+				// Perform the installation
+				if err := performUpdateChainSpec(); err != nil {
+					fmt.Println("Error during update chain spec :", err)
+					os.Exit(1)
+				}
+			}
+		}
+	},
+}

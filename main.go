@@ -19,6 +19,7 @@ var cfgFile string
 func init() {
 	rootCmd.AddCommand(pkg.InitCmd)
 	rootCmd.AddCommand(pkg.InstallCmd)
+	rootCmd.AddCommand(pkg.UpdateSpecCmd)
 	rootCmd.AddCommand(pkg.StartCmd)
 	rootCmd.AddCommand(pkg.NodeStateCmd)
 	rootCmd.AddCommand(pkg.GenesisConfigCmd)
