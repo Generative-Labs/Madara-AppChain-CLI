@@ -117,7 +117,8 @@ var UpdateSpecCmd = &cobra.Command{
 
 			if strings.HasPrefix(arg, "madara") {
 				// Perform the installation
-				if err := performUpdateChainSpec(); err != nil {
+				source_path := "./"
+				if err := performUpdateChainSpec(source_path); err != nil {
 					fmt.Println("Error during update chain spec :", err)
 					os.Exit(1)
 				}
