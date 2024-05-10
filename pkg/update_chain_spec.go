@@ -57,7 +57,7 @@ func performUpdateChainSpec(source_path string) error {
 	}
 	defer destJsonFile.Close()
 
-	_, err = io.Copy(srcJsonFile, destJsonFile)
+	_, err = io.Copy(destJsonFile, srcJsonFile)
 	if err != nil {
 		fmt.Println("Move new file error:", err)
 		return err
