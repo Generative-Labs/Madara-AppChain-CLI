@@ -47,7 +47,7 @@ func performUpdateChainSpec(source_path string) error {
 		fmt.Println("Can not open source appchain_json file:", err)
 		return err
 	}
-	defer srcFile.Close()
+	defer srcJsonFile.Close()
 
 	dst_json := source_folder + "/genesis-assets/genesis.json"
 	destJsonFile, err := os.Create(dst_json)
