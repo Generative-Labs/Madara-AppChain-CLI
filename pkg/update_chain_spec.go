@@ -42,7 +42,22 @@ func performUpdateChainSpec(source_path string) error {
 	// Move appchain_genesis.json to genesis.json
 	source_appchain_json := filepath.Join(homeDir, ".madup/appchain_genesis.json")
 
-	err = os.Rename(source_appchain_json, source_folder+"/genesis-assets/genesis.json")
+	srcJsonFile, err := os.Open(source_appchain_json)
+	if err != nil {
+		fmt.Println("Can not open source appchain_json file:", err)
+		return err
+	}
+	defer srcFile.Close()
+
+	dst_json := source_folder + "/genesis-assets/genesis.json"
+	destJsonFile, err := os.Create(dst_json)
+	if err != nil {
+		fmt.Println("Can not create destination json file:", err)
+		return err
+	}
+	defer destJsonFile.Close()
+
+	_, err = io.Copy(srcJsonFile, destJsonFile)
 	if err != nil {
 		fmt.Println("Move new file error:", err)
 		return err
